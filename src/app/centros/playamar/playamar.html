@@ -1,0 +1,88 @@
+<h1>Datos del centro</h1>
+<dl>
+  <td>Centro Educativo</td>
+  <dd>{{ centro_educativo }}</dd>
+  <td>Localidad:</td>
+  <dd>{{ localidad }}</dd>
+  <td>Familias Profesionales:</td>
+  <dd>{{ familias }}</dd>
+  <td>Centro:</td>
+  <dd>{{ centro }}</dd>
+  <td>Logo:</td>
+  <img [src]="logo" alt="Logo del centro">
+</dl>
+
+<button /**ngIf="centro !== 'IES JACARANDA'"*/ class="btn btn-primary" (click)="cambiarDatos()">
+  Cambiar datos
+</button>
+<button class="btn btn-primary" (click)="deshacerCambios()">
+  Deshacer cambios
+</button>
+
+<div class="contenedor">
+  <h1>Listado de centros educativos</h1>
+  @if (centroActual; as centro) {
+    <div class="tarjeta">
+      <img
+        [src]="centro.logo"
+        [alt]="'Logotipo de ' + centro.centro_educativo"
+        class="logo"
+      >
+      <h2>{{ centro.centro_educativo }}</h2>
+      <p>
+        <strong>Localidad:</strong>
+        {{ centro.localidad }}
+      </p>
+      <h3>Familias</h3>
+      <ul>
+        @for (ciclo of centro.familias; track ciclo) {
+          <li>{{ ciclo }}</li>
+        }
+      </ul>
+    </div>
+    <p class="posicion">
+      POSICIÓN: {{ posicion + 1 }} / {{ centros.length }}
+    </p>
+  } @else {
+    <p class="vacio">No hay centros educativos en el listado.</p>
+  }
+  <div class="botones">
+    @if (posicion > 0 && centros.length > 0) {
+      <button (click)="anterior()">
+        &lt; ANTERIOR
+      </button>
+    }
+    <button
+      (click)="eliminar()"
+      [disabled]="centros.length === 0">
+      X ELIMINAR
+    </button>
+    <button disabled>
+      POSICIÓN
+    </button>
+    <button
+      (click)="insertar()"
+      [disabled]="pila.length === 0">
+      O INSERTAR
+    </button>
+    @if (posicion < centros.length - 1 && centros.length > 0) {
+      <button (click)="posterior()">
+        &gt; POSTERIOR
+      </button>
+    }
+  </div>
+  <div class="pila">
+    <h2>Contenido de la PILA</h2>
+    @if (pila.length > 0) {
+      <ul>
+        @for (centro of pila; track $index) {
+          <li>{{ centro.centro_educativo }}</li>
+        }
+      </ul>
+    } @else {
+      <p>La pila está vacía.</p>
+    }
+
+  </div>
+
+</div>
